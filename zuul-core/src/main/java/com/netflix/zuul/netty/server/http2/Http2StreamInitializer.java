@@ -92,7 +92,6 @@ public class Http2StreamInitializer extends ChannelInboundHandlerAdapter
         AttributeKey[] attributesToCopy = {
                 SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS,
                 SourceAddressChannelHandler.ATTR_LOCAL_INET_ADDR,
-                SourceAddressChannelHandler.ATTR_LOCAL_PORT,
                 SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS,
                 SourceAddressChannelHandler.ATTR_SOURCE_INET_ADDR,
                 SourceAddressChannelHandler.ATTR_SOURCE_PORT,

@@ -53,7 +53,6 @@ public final class HAProxyMessageChannelHandler extends ChannelInboundHandlerAda
             String destinationAddress = hapm.destinationAddress();
             if (destinationAddress != null) {
                 channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS).set(destinationAddress);
-                channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).set(hapm.destinationPort());
                 SocketAddress addr;
                 out:
                 {

@@ -44,7 +44,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ElbProxyProtocolChannelHandlerTest {
-    
+
     @Mock
     private Registry registry;
     @Mock
@@ -73,7 +73,6 @@ public class ElbProxyProtocolChannelHandlerTest {
         assertNull(channel.attr(HAProxyMessageChannelHandler.ATTR_HAPROXY_MESSAGE).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDR).get());
-        assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_PORT).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_REMOTE_ADDR).get());
@@ -114,7 +113,6 @@ public class ElbProxyProtocolChannelHandlerTest {
         assertNull(channel.attr(HAProxyMessageChannelHandler.ATTR_HAPROXY_MESSAGE).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDR).get());
-        assertNull(channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_PORT).get());
         assertNull(channel.attr(SourceAddressChannelHandler.ATTR_REMOTE_ADDR).get());
@@ -163,7 +161,7 @@ public class ElbProxyProtocolChannelHandlerTest {
         EmbeddedChannel channel = new EmbeddedChannel();
         channel.pipeline().addLast(ElbProxyProtocolChannelHandler.NAME, new ElbProxyProtocolChannelHandler(registry, true));
         ByteBuf buf = Unpooled.wrappedBuffer(
-                "PROXY TCP4 192.168.0.1 124.123.111.111 10008 443\r\n".getBytes(StandardCharsets.US_ASCII));
+                "PROXY TCP4 192.168.0.1 124.123.111.111 10008 7007\r\n".getBytes(StandardCharsets.US_ASCII));
         channel.writeInbound(buf);
 
         Object dropped = channel.readInbound();
@@ -178,9 +176,8 @@ public class ElbProxyProtocolChannelHandlerTest {
         assertNotNull(channel.attr(HAProxyMessageChannelHandler.ATTR_HAPROXY_MESSAGE).get());
         assertEquals("124.123.111.111", channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS).get());
         assertEquals(
-                new InetSocketAddress(InetAddresses.forString("124.123.111.111"), 443),
+                new InetSocketAddress(InetAddresses.forString("124.123.111.111"), 7007),
                 channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDR).get());
-        assertEquals(Integer.valueOf(443), channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).get());
         assertEquals("192.168.0.1", channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS).get());
         assertEquals(Integer.valueOf(10008), channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_PORT).get());
         assertEquals(
@@ -193,7 +190,7 @@ public class ElbProxyProtocolChannelHandlerTest {
         EmbeddedChannel channel = new EmbeddedChannel();
         channel.pipeline().addLast(ElbProxyProtocolChannelHandler.NAME, new ElbProxyProtocolChannelHandler(registry, true));
         ByteBuf buf = Unpooled.wrappedBuffer(
-                "PROXY TCP6 ::1 ::2 10008 443\r\n".getBytes(StandardCharsets.US_ASCII));
+                "PROXY TCP6 ::1 ::2 10008 7007\r\n".getBytes(StandardCharsets.US_ASCII));
         channel.writeInbound(buf);
 
         Object dropped = channel.readInbound();
@@ -208,9 +205,8 @@ public class ElbProxyProtocolChannelHandlerTest {
         assertNotNull(channel.attr(HAProxyMessageChannelHandler.ATTR_HAPROXY_MESSAGE).get());
         assertEquals("::2", channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDRESS).get());
         assertEquals(
-                new InetSocketAddress(InetAddresses.forString("::2"), 443),
+                new InetSocketAddress(InetAddresses.forString("::2"), 7007),
                 channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDR).get());
-        assertEquals(Integer.valueOf(443), channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).get());
         assertEquals("::1", channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS).get());
         assertEquals(Integer.valueOf(10008), channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_PORT).get());
         assertEquals(
@@ -242,7 +238,6 @@ public class ElbProxyProtocolChannelHandlerTest {
         assertEquals(
                 new InetSocketAddress(InetAddresses.forString("124.123.111.111"), 443),
                 channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_ADDR).get());
-        assertEquals(Integer.valueOf(443), channel.attr(SourceAddressChannelHandler.ATTR_LOCAL_PORT).get());
         assertEquals("192.168.0.1", channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_ADDRESS).get());
         assertEquals(Integer.valueOf(10008), channel.attr(SourceAddressChannelHandler.ATTR_SOURCE_PORT).get());
         assertEquals(
